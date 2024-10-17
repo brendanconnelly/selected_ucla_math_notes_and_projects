@@ -1,0 +1,19 @@
+\begin{center}
+\begin{tikzpicture}
+    \begin{axis}[
+        view={60}{30}, % Adjusts the angle of view
+        xlabel={$x$},
+        ylabel={$y$},
+        zlabel={$z$},
+        samples=25
+    ]
+    
+    % Parabolic Cylinder: y = x^2
+    \addplot3 [
+        surf,
+        colormap/cool
+    ]
+    {x^2};
+    \end{axis}
+\end{tikzpicture}
+\end{center}

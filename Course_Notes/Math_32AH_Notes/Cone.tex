@@ -1,0 +1,30 @@
+\begin{center}
+\begin{tikzpicture}
+    \begin{axis}[
+        view={120}{40}, % Adjust the viewing angle
+        xlabel={$x$},
+        ylabel={$y$},
+        zlabel={$z$},
+        xmin=-2, xmax=2,
+        ymin=-1, ymax=1,
+        zmin=-1, zmax=1,
+        samples=30, % Adjust for smoothness
+        domain=0:360, % theta domain (in degrees)
+        y domain=-1:1 % z domain
+    ]
+    
+    % Elliptic Cone
+    \addplot3 [
+        surf, 
+        shader=interp, 
+        z buffer=sort,
+        colormap/hot
+    ] (
+        {y * cos(x)}, % x, scaling factor for ellipse in x direction
+        {0.5 * y * sin(x)}, % y, scaling factor for ellipse in y direction
+        {y}           % z
+    );
+
+    \end{axis}
+\end{tikzpicture}
+\end{center}

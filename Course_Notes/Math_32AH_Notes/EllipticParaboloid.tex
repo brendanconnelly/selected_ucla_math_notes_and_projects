@@ -1,0 +1,30 @@
+\begin{center}
+\begin{tikzpicture}
+    \begin{axis}[
+        view={120}{40}, % Adjust the viewing angle
+        xlabel={$x$},
+        ylabel={$y$},
+        zlabel={$z$},
+        xmin=-2, xmax=2,
+        ymin=-2, ymax=2,
+        zmin=0, zmax=4,
+        samples=30, % Adjust for smoothness
+        domain=-2:2, % x domain
+        y domain=-2:2 % y domain
+    ]
+    
+    % Elliptic Paraboloid
+    \addplot3 [
+        surf, 
+        shader=interp, 
+        z buffer=sort,
+        colormap/hot
+    ] (
+        {x}, 
+        {y}, 
+        {x^2 + y^2} % Equation of the paraboloid
+    );
+
+    \end{axis}
+\end{tikzpicture}
+\end{center}

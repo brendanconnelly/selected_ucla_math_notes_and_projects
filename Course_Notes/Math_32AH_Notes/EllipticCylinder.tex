@@ -1,0 +1,26 @@
+\begin{center} 
+    \begin{tikzpicture}
+        \begin{axis}[
+            view={60}{30},
+            xlabel={$x$},
+            ylabel={$y$},
+            zlabel={$z$},
+            xmin=-2, xmax=2,
+            ymin=-2, ymax=2,
+            zmin=-1, zmax=1,
+            samples=30
+        ]
+    
+        % Elliptic cylinder: x^2 + z^2 = 1
+        \addplot3 [
+            surf, 
+            domain=0:360,    % Angle
+            domain y=-2:2,   % Height
+            z buffer=sort,
+            colormap/hot
+        ] 
+        ({cos(x)}, y, {sin(x)}); % Parametric equation of the elliptic cylinder
+    
+        \end{axis}
+    \end{tikzpicture}
+\end{center}
