@@ -1,0 +1,881 @@
+\documentclass{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amsfonts, amssymb, enumitem, amsthm}
+\usepackage{etoolbox} % Required for patching environments
+
+\allowdisplaybreaks
+
+%\usetikzlibrary{polar}
+
+\title{Math 115AH Notes}
+\author{Brendan Connelly}
+\date{April to June 2024}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\secbreak}{\noindent \hrulefill \vspace{1cm}}
+
+
+\begin{document}
+
+
+\theoremstyle{definition}
+\newtheorem*{definition}{Definition}
+\newtheorem*{theorem}{Theorem}
+\newtheorem*{proposition}{Proposition}
+\newtheorem*{lemma}{Lemma}
+\newtheorem*{corollary}{Corollary}
+
+
+\AtEndEnvironment{definition}{\vspace{0.5cm}}
+\AtEndEnvironment{theorem}{\vspace{0.5cm}}
+\AtEndEnvironment{proposition}{\vspace{0.5cm}}
+\AtEndEnvironment{lemma}{\vspace{0.5cm}}
+\AtEndEnvironment{corollary}{\vspace{0.5cm}}
+
+
+
+\maketitle
+
+\section*{Key Definitions/Axioms}
+
+\begin{definition}[Field Axioms]
+A field \( F \) is a set with two (binary--meaning two inputs of same type) operations \( + \) and \( \cdot \) (called addition and multiplication, respectively) such that for each pair of elements \( x, y \in F \), there are unique elements in \( F \), denoted \( x + y \) and \( x \cdot y \), satisfying the following conditions for all elements \( a, b, c \in F \):
+\begin{enumerate}[label=(\roman*)]
+    \item \( a + b = b + a \) and \( a \cdot b = b \cdot a \) \\
+    (Commutativity of addition and multiplication)
+    
+    \item \( (a + b) + c = a + (b + c) \) and \( (a \cdot b) \cdot c = a \cdot (b \cdot c) \) \\
+    (Associativity of addition and multiplication)
+    
+    \item There exist distinct elements 0 and 1 in \( F \) such that \\
+    \( 0 + a = a \) and \( 1 \cdot a = a \) \\
+    (Existence of identity elements for addition and multiplication)
+    
+    \item For each element \( a \in F \) and each nonzero element \( b \in F \), there exist elements \( c \) and \( d \in F \) such that \\
+    \( a + c = 0 \) and \( b \cdot d = 1 \) \\
+    (Existence of inverses for addition and multiplication)
+    
+    \item \( a \cdot (b + c) = a \cdot b + a \cdot c \) \\
+    (Distributivity of multiplication over addition)
+\end{enumerate}
+The elements \( x + y \) and \( x \cdot y \) are called the sum and product, respectively, of \( x \) and \( y \). The elements 0 (read “zero”) and 1 (read “one”) are the additive and multiplicative identity elements, respectively.
+\end{definition}
+
+\begin{definition}[Relation]
+    A \emph{relation} on a set \( A \) is a subset of the Cartesian product \( A \times A \). For elements \( a, b \in A \), if the pair \( (a, b) \) is in this subset, we write \( a \sim b \) and say that \( a \) is related to \( b \).
+\end{definition}
+
+\begin{definition}[Equivalence Relation]
+    An \emph{equivalence relation} on a set \( A \) is a relation denoted by \( \sim \) that satisfies the following three properties for all \( a, b, c \in A \):
+    \begin{enumerate}
+        \item \emph{Reflexivity}: \( a \sim a \) for all \( a \in A \).
+        \item \emph{Symmetry}: If \( a \sim b \), then \( b \sim a \).
+        \item \emph{Transitivity}: If \( a \sim b \) and \( b \sim c \), then \( a \sim c \).
+    \end{enumerate}
+    If \( \sim \) is an equivalence relation on \( A \), and \( a \sim b \), we say that \( a \) is equivalent to \( b \).
+\end{definition}
+
+\begin{definition}[Equivalence Class]
+Given an equivalence relation \( R \) on a set \( S \) and an element \( a \in S \), let \([a] = \{ b \in S \mid a \sim b \}\). The set \([a]\) is called the \emph{equivalence class} of the element \( a \). Note that \([a]\) is a subset of \( S \), consisting of all elements of \( S \) which are related to \( a \) under the equivalence relation \( R \).
+\end{definition}
+
+\begin{definition}[Quotient of a Relation]
+Given a set \( S \) with an equivalence relation \( R \), define the quotient set \( S/R \) as
+\[ S/R = \{ [a] \mid a \in S \}. \] 
+We refer to \( S/R \) as the quotient of \( S \) by the relation \( R \).
+\end{definition}
+
+\begin{definition}[Integers Modulo \( n \)]
+    Recall that \( \mathbb{Z}/n\mathbb{Z} \) is the set \( \{[0], [1], [2], \ldots, [n-1]\} \). We can define two operations on this set, as follows:
+
+    \textbf{Addition}: An operation \( +_n \colon \mathbb{Z}/n\mathbb{Z} \times \mathbb{Z}/n\mathbb{Z} \to \mathbb{Z}/n\mathbb{Z} \), given on \( a, b \in \mathbb{Z}/n\mathbb{Z} \) by
+    \[ [a] + [b] = [a + b], \]
+    where the \( + \) on the right-hand side is the usual addition in \( \mathbb{Z} \).
+
+    \textbf{Multiplication}: An operation \( \cdot_n \colon \mathbb{Z}/n\mathbb{Z} \times \mathbb{Z}/n\mathbb{Z} \to \mathbb{Z}/n\mathbb{Z} \), given on \( a, b \in \mathbb{Z}/n\mathbb{Z} \) by
+    \[ [a] \cdot [b] = [a \cdot b], \]
+    where the \( \cdot \) on the right-hand side is the usual multiplication in \( \mathbb{Z} \).
+\end{definition}
+
+\begin{definition}[Vector Space]
+     A vector space \(V\) over a field \(\F\) is a collection of objects called vectors, along with operations of vector addition and scalar multiplication that satisfy the following eight axioms. 
+
+    \begin{enumerate}[label=\textbf{(VS \arabic*)}]
+    \item  For all $\vec{x}, \vec{y}$ in $V$, $\vec{x} + \vec{y} = \vec{y} + \vec{x}$ (commutativity of addition).
+    \item  For all $\vec{x}, \vec{y}, \vec{z}$ in $V$, $(\vec{x} + \vec{y}) + \vec{z} = \vec{x} + (\vec{y} + \vec{z})$ (associativity of addition).
+    \item There exists an element in $V$ denoted by $0$ such that $\vec{x} + 0 = \vec{x}$ for each $\vec{x}$ in $V$.
+    \item  For each element $\vec{x}$ in $V$ there exists an element $\vec{y}$ in $V$ such that $\vec{x} + \vec{y} = 0$.
+    \item  For each element $\vec{x}$ in $V$, $1\vec{x} = \vec{x}$.
+    \item For each pair of elements $a, b$ in $F$ and each element $\vec{x}$ in $V$, $(ab)\vec{x} = a(b\vec{x})$.
+    \item For each element $a$ in $F$ and each pair of elements $\vec{x}, \vec{y}$ in $V$, $a(\vec{x} + \vec{y}) = a\vec{x} + a\vec{y}$.
+    \item For each pair of elements $a, b$ in $F$ and each element $\vec{x}$ in $V$, $(a + b)\vec{x} = a\vec{x} + b\vec{x}$.
+\end{enumerate}
+\end{definition}
+
+\begin{definition}[Linearly Dependent]
+A subset \( S \) of a vector space \( V \) is called \emph{linearly dependent} if there exist a finite number of distinct vectors \( \vec{u}_1, \vec{u}_2, \ldots, \vec{u}_n \) in \( S \) and scalars \( a_1, a_2, \ldots, a_n \), not all zero, such that
+\[ a_1\vec{u}_1 + a_2\vec{u}_2 + \cdots + a_n\vec{u}_n = \vec{0}. \]
+In this case, we also say that the vectors of \( S \) are linearly dependent.
+\end{definition}
+
+\begin{definition}[Linearly Independent]
+A subset \( S \) of a vector space \( V \) is called \emph{linearly independent} if the only scalars \( a_1, a_2, \ldots, a_n \) that satisfy
+\[ a_1\vec{u}_1 + a_2\vec{u}_2 + \cdots + a_n\vec{u}_n = \vec{0} \]
+are \( a_1 = a_2 = \cdots = a_n = 0 \). In other words, the only representation of the zero vector as a linear combination of vectors in \( S \) is the trivial representation.
+\end{definition}
+
+\begin{definition}[Linear Transformation]
+    A function \( T: V \to W \) is a \textbf{linear transformation} from \( V \) to \( W \) if:
+    \begin{enumerate}
+        \item For all \( x, y \in V \), \( T(x + y) = T(x) + T(y) \).
+        \item For all \( x \in V \) and \( \lambda \in \mathbb{F} \), \( T(\lambda x) = \lambda T(x) \).
+    \end{enumerate}
+\end{definition}
+
+\begin{definition}[Function]
+    A \textbf{function} \( f \) is the data of:
+    \begin{enumerate}
+        \item a set \( A \) called the \textbf{domain},
+        \item a set \( B \) called the \textbf{codomain},
+        \item a rule or formula that associates to each element in the domain an element in the codomain.
+    \end{enumerate}
+\end{definition}
+
+\begin{definition}[Kernel and Image]
+    Let \( T: V \to W \) be linear.
+    \begin{itemize}
+        \item The kernel, or null space, of \( T \) is 
+        \[
+        \ker(T) := \{ v \in V \mid T(v) = \vec{0}_W \}.
+        \]
+        \item The image, or range, of \( T \) is 
+        \[
+        \operatorname{Im}(T) := \{ w \in W \mid \exists v \in V: T(v) = w \}.
+        \]
+    \end{itemize}
+\end{definition}
+
+\begin{definition}[Linear Combination]
+    Let \( S \) be a subset of a vector space \( V \) over a field \( \mathbb{F} \).
+    \begin{itemize}
+        \item A \textbf{linear combination} of vectors in \( S \) is any finite sum \( a_1\vec{v}_1 + \cdots + a_n\vec{v}_n = \sum_{i=1}^{n} a_i \vec{v}_i \), where \( a_i \in \mathbb{F} \) and \( \vec{v}_i \in S \).
+        \item The set of all linear combinations of vectors in \( S \) is called the \textbf{span} of \( S \), written as \(\operatorname{span}(S)\).
+    \end{itemize}
+\end{definition}
+
+\begin{definition}[Basis]
+    A \textbf{basis} for a vector space \( V \) over \( \mathbb{F} \) is a set \( \mathcal{B} \subseteq V \) such that:
+    \begin{enumerate}
+        \item \(\mathcal{B}\) is linearly independent.
+        \item \(\operatorname{span}(\mathcal{B}) = V\).
+    \end{enumerate}
+    We say \(\mathcal{B}\) \textbf{spans} or \textbf{generates} \( V \).
+\end{definition}
+
+\begin{definition}[Left Multiplication Transformation]
+Given a matrix \( A \in \text{Mat}_{n \times m}(\mathbb{F}) \), we let \( L_A: \mathbb{F}^m \to \mathbb{F}^n \) be the linear transformation defined by
+
+\[
+L_A \begin{pmatrix}
+x_1 \\
+\vdots \\
+x_m
+\end{pmatrix} = A \begin{pmatrix}
+x_1 \\
+\vdots \\
+x_m
+\end{pmatrix}.
+\]
+\end{definition}
+
+
+
+
+\begin{definition}[Invertibility]
+Let \( X \) and \( Y \) be sets. A function \( f: X \to Y \) is invertible if there is a function \( g: Y \to X \) such that 
+
+\[
+g \circ f = \mathrm{id}_X \quad \text{and} \quad f \circ g = \mathrm{id}_Y.
+\]
+
+\textbf{Terminology:} \( g \) is an \emph{inverse} for \( f \). We write \( g = f^{-1} \).
+
+\emph{Note: }A function \( f: X \to Y \) is invertible if and only if \( f \) is one-to-one and onto.
+
+\end{definition}
+
+
+\begin{definition}[Matrix Invertibility]
+A matrix \( A \in \mathrm{Mat}_{n \times n}(\mathbb{F}) \) is invertible if there exists a matrix \( B \in \mathrm{Mat}_{n \times n}(\mathbb{F}) \) such that 
+
+\[
+A \cdot B = B \cdot A = I_n.
+\]
+\end{definition}
+
+
+
+
+
+\begin{definition}[Linear Isomorphism]
+A linear transformation \( T: V \to W \) is called an \emph{isomorphism} if \( T \) is invertible.
+
+If there exists an isomorphism \( T: V \to W \), we say that \( V \) is isomorphic to \( W \).
+\end{definition}
+
+\textbf{Example:} \( T: P_1(\mathbb{R}) \to \mathbb{R}^2 \)
+
+\[
+T(a + bx) = (a, b)
+\]
+
+
+\begin{definition}[Determinant]
+Let \( A \in \mathrm{Mat}_{n \times n}(\mathbb{F}) \). We recursively define:
+\begin{itemize}
+    \item For \( n = 1 \): \(\det(a) = a\).
+    \item For \( n = 2 \):
+    \[
+    \det\begin{pmatrix}
+    a & b \\
+    c & d
+    \end{pmatrix} = ad - bc.
+    \]
+    \item For \( n \geq 3 \): For an \( n \times n \) matrix \( A \), fix \( j \in \{1, \ldots, n\} \). Then,
+    \[
+    \det(A) = \sum_{i=1}^{n} (-1)^{i+j} \det(A_{ij}) a_{ij},
+    \]
+    where \( A_{ij} \) is the \((n-1) \times (n-1)\) submatrix of \( A \) obtained by deleting the \( i \)-th row and \( j \)-th column.
+\end{itemize}
+\end{definition}
+
+
+\secbreak
+
+
+\section*{Smaller Key Results}
+
+\begin{definition}[Span and L.D.]
+    Let \( S \) be a linearly independent subset of a vector space \( V \), and let \( v \) be a vector in \( V \) that is not in \( S \). Then \( S \cup \{v\} \) is linearly dependent if and only if \( v \in \text{span}(S) \).
+\end{definition}
+
+\begin{definition}[Addition of Subspaces]
+    Let \( S, T \) be subsets of \( V \). Let
+    \[
+    S + T := \{ v + v' \mid v \in S, v' \in T \}.
+    \]
+    If \( S = U_1 \) and \( T = U_2 \) are subspaces, then so is \( U_1 + U_2 \).
+\end{definition}
+
+\begin{theorem}[1.8 in Book]
+    Given a collection \( \mathcal{B} \) of distinct vectors in \( V \), \( \mathcal{B} \) is a basis 
+    \(\iff\) every vector in \( V \) can be written uniquely as a linear combination of vectors in \( \mathcal{B} \).
+\end{theorem}
+
+
+
+\begin{proposition} [Determinant Properties]
+We have the following properties of the determinant: 
+\begin{enumerate}
+    \item Let \( A \) be an \( n \times n \) matrix with entries in \( \mathbb{F} \). Then \(\det(A) \neq 0 \) if and only if \( A \) is invertible.
+    \item The definition of the determinant doesn't depend on the choice of \( i \in \{1, \ldots, n\} \).
+    \item \(\det(A) = \det(A^t)\).
+    \item \(\det(AB) = \det(A) \cdot \det(B)\).
+    \item The function \(\det: (\mathbb{F}^n)^{\times n} \to \mathbb{F}\) is linear in each argument.
+    \item Given a matrix \( A \in \mathrm{Mat}_{n \times n}(\mathbb{F}) \),
+    \[
+    A = \begin{pmatrix}
+    \vec{v}_1 & \cdots & \vec{v}_n
+    \end{pmatrix}.
+    \]
+    Let \( A(i, j) \) denote the matrix obtained by swapping the \( i \)-th and \( j \)-th columns. Let \( A^*(i, j, \lambda) \) denote the matrix obtained by adding \(\lambda \vec{v}_j \) to \(\vec{v}_i \). Then:
+    \begin{itemize}
+        \item \(\det(A(i, j)) = -\det(A)\)
+        \item \(\det(A^*(i, j, \lambda)) = \det(A)\)
+    \end{itemize}
+    \item If \( A \) has a row or column that is all zeros, then \(\det(A) = 0\).
+\end{enumerate}
+\end{proposition}
+
+
+
+\secbreak
+
+\section*{Major Theorems}
+
+\begin{theorem}[The Replacement Theorem]
+Let \( V \) be a vector space over a field \( \mathbb{F} \).
+
+If we are given sets \( G, L \subseteq V \) such that:
+\begin{itemize}
+    \item \( G \) has \( n \) elements and \(\mathrm{span}(G) = V \),
+    \item \( L \) has \( m \) elements and is linearly independent,
+\end{itemize}
+then:
+\begin{itemize}
+    \item \( m \leq n \),
+    \item There exists \( H \subseteq V \) with \( n - m \) elements such that \( L \cup H \) generates \( V \).
+\end{itemize}
+\end{theorem}
+
+\begin{theorem}[Corollaries to the Replacement Theorem] Assume the sets are finite
+\begin{enumerate}
+    \item Any two bases have the same number of elements.
+    \item We call the number of elements in a basis the \emph{dimension} of \( V \).
+    \item If \( L \subseteq V \) is linearly independent, then \( \#L \leq \dim(V) \).
+    If \( G \subseteq V \) spans \( V \), then \( \#G \geq \dim(V) \).
+    \item If \(\mathrm{span}(S) = V \) and \( \#S = \dim(V) \), then \( S \) is a basis for \( V \).
+    If \( L \) is linearly independent and \( \#L = \dim(V) \), then \( L \) is a basis for \( V \).
+    \item Every linearly independent set in \( V \) is contained in a basis.
+    Every spanning set in \( V \) contains a basis.
+\end{enumerate}
+\end{theorem}
+
+\begin{theorem}[The Dimension Theorem]
+For \( V, W \) vector spaces over \( \mathbb{F} \), let \( T: V \to W \) be a linear transformation.
+
+\[
+\dim(\ker(T)) + \dim(\mathrm{Im}(T)) = \dim(V)
+\]
+
+where \(\dim(\ker(T))\) is the nullity \(n(T)\) and \(\dim(\mathrm{Im}(T))\) is the rank \(r(T)\).
+
+\end{theorem}
+
+\begin{theorem}[Linear Transformation Defined on Basis Vectors]
+If \( \mathcal{B} = \{ \vec{u}_1, \ldots, \vec{u}_n \} \) is a basis for \( V \) and \(\{\vec{w}_1, \ldots, \vec{w}_n \} \subset W \), then there is a unique linear transformation \( T: V \to W \) such that \( T(\vec{u}_i) = \vec{w}_i \) for all \( i \).
+\end{theorem}
+
+
+\secbreak
+
+\section*{Coordinate Representation and Change of Bases}
+
+\begin{definition}[Coordinate Representation of Vectors]
+Given a basis \( \mathcal{B} = \{ \vec{u}_1, \ldots, \vec{u}_n \} \) for \( V \) and \( \vec{v} \in V \), the \(\mathcal{B}\)-coordinate representation, or \(\mathcal{B}\)-coordinate vector, for \(\vec{v}\) is the column vector
+
+\[
+[\vec{v}]_{\mathcal{B}} := \begin{pmatrix}
+a_1 \\
+\vdots \\
+a_n
+\end{pmatrix} \in \mathbb{F}^n,
+\]
+
+where \( a_i \in \mathbb{F} \) are the unique scalars such that 
+
+\[
+\vec{v} = a_1 \vec{u}_1 + \cdots + a_n \vec{u}_n.
+\]
+\end{definition}
+
+
+\begin{theorem}[Coordinate Transformation]
+Let \( T: V \to W \) be linear, with \(\dim(V)\) and \(\dim(W)\) finite. Let \( \beta \) be a basis for \( V \) and \( \gamma \) a basis for \( W \). Then
+
+\[
+[T]_{\beta}^{\gamma} [\vec{v}]_{\beta} = [T(\vec{v})]_{\gamma}.
+\]
+\end{theorem}
+
+
+\begin{theorem}[Property of Coordinate Matrices]
+Let \( V, W, Z \) be vector spaces over \( \mathbb{F} \), with bases \( \beta, \gamma, \delta \). Let \( T: V \to W \) and \( H: W \to Z \) be linear. Then
+
+\[
+[H \circ T]_{\beta}^{\delta} = [H]_{\gamma}^{\delta} [T]_{\beta}^{\gamma}.
+\]
+\end{theorem}
+
+\begin{theorem}[Properties of Coordinate Matrices (2.8)]
+Suppose \( T_1, T_2: V \to W \) are linear, with bases \( \beta \) for \( V \) and \( \gamma \) for \( W \). Then:
+\begin{enumerate}
+    \item \([T_1 + T_2]_{\beta}^{\gamma} = [T_1]_{\beta}^{\gamma} + [T_2]_{\beta}^{\gamma}\)
+    \item For all \(\lambda \in \mathbb{F}\), \([ \lambda T_1 ]_{\beta}^{\gamma} = \lambda [T_1]_{\beta}^{\gamma}\)
+    \item \([ \mathrm{id}_W ]_{\beta}^{\beta} = I_n\), where \( n = \dim(V) \)
+\end{enumerate}
+\end{theorem}
+
+
+\begin{theorem}[Equivalent Statement to Transformation Equality]
+Let \( T: V \to W \) and \( S: V \to W \) be linear. Let \( \beta \) be a finite basis for \( V \) and \( \gamma \) a finite basis for \( W \). Then \( T = S \) if and only if 
+
+\[
+[T]_{\beta}^{\gamma} = [S]_{\beta}^{\gamma}.
+\]
+\end{theorem}
+
+
+\begin{theorem}[Matrices and Linear Transformations]
+Let \( A \in \mathrm{Mat}_{m \times n}(\mathbb{F}) \). Let \( \beta_1, \beta_2 \) be the standard bases for \( \mathbb{F}^n \) and \( \mathbb{F}^m \) (respectively). Then:
+\begin{enumerate}
+    \item \([L_A]_{\beta_1}^{\beta_2} = A\)
+    \item For all \( B \in \mathrm{Mat}_{l \times m}(\mathbb{F}) \),
+    \[
+    L_B \circ L_A = L_{B \cdot A}
+    \]
+\end{enumerate}
+\end{theorem}
+
+\begin{theorem}[Theorems on Invertibility] We have the following theorems
+
+\begin{enumerate}[label = \alph{enumi}]
+    \item A matrix \( A \in \mathrm{Mat}_{n \times n}(\mathbb{F}) \) is invertible if and only if \( L_A: \mathbb{F}^n \to \mathbb{F}^n \) is invertible and \((L_A)^{-1} = L_{A^{-1}}\).
+    
+    \item Suppose \( V, W \) are finite-dimensional, \(\beta\) is a basis for \( V \), and \(\gamma\) is a basis for \( W \). Then \( T: V \to W \) is invertible if and only if \([T]_{\beta}^{\gamma}\) is invertible. If \( T \) is invertible, then 
+    \[
+    [T^{-1}]_{\gamma}^{\beta} = ([T]_{\beta}^{\gamma})^{-1}.
+    \]
+\end{enumerate}
+\end{theorem}
+
+\begin{lemma}[On Coordinate Matrix Properties]
+Let \( A \in \mathrm{Mat}_{m \times n}(\mathbb{F}) \), \( B \in \mathrm{Mat}_{l \times m}(\mathbb{F}) \). Let \( \beta_1, \beta_2, \beta_3 \) be the standard bases for \( \mathbb{F}^n \), \( \mathbb{F}^m \), \( \mathbb{F}^l \) (respectively). Then:
+\begin{enumerate}
+    \item \([L_A]_{\beta_1}^{\beta_2} = A\)
+    \item \( L_{B \cdot A} = L_B \circ L_A \)
+\end{enumerate}
+\end{lemma}
+
+
+\begin{definition}[Change of Coordinate Matrix]
+Let \( V \) be a finite-dimensional vector space over a field \( \mathbb{F} \) and let \( \beta, \beta' \) be two bases for \( V \). The matrix
+\[
+Q = [\mathrm{Id}_V]_{\beta'}^{\beta}
+\]
+is a change of coordinates matrix that changes \( \beta' \)-coordinates into \( \beta \)-coordinates.
+\end{definition}
+
+\begin{definition}[Notational Note]
+Let \( T: V \to V \). If \( \beta, \beta' \) are both finite bases for \( V \), then:
+\begin{align*}
+[T]_{\beta} &= [T]_{\beta}^{\beta}, \\
+[T]_{\beta'} &= [T]_{\beta'}^{\beta'}.
+\end{align*}
+\end{definition}
+
+\begin{theorem}[Theorems on Change of Coordinate Matrices] 
+We have the following:
+\begin{enumerate}
+    \item \( Q \) is invertible and \( Q^{-1} = [\mathrm{id}_V]_{\beta}^{\beta'} \).
+    \item For every \( \vec{v} \in V \),
+    \[
+    [\vec{v}]_{\beta} = Q [\vec{v}]_{\beta'}.
+    \]
+    \item \( Q^{-1} [T]_{\beta} Q = [T]_{\beta'} \).
+\end{enumerate}
+\end{theorem}
+
+
+\begin{definition}[Similar Matrices]
+Matrices \( A, B \in \mathrm{Mat}_{n \times n}(\mathbb{F}) \) are \emph{similar} if there exists an invertible matrix \( Q \in \mathrm{Mat}_{n \times n}(\mathbb{F}) \) such that 
+\[
+A = Q^{-1} B Q.
+\]
+
+We also have the following facts:
+\begin{itemize}
+    \item If \( A = [T]_{\beta} \) and \( B = [T]_{\gamma} \) for some \( T: V \to V \), \(\dim V = n\), then \( A \) is similar to \( B \).
+    \item If \( A \) is similar to \( B \), then \(\det(A) = \det(B)\).
+    \item If \( A \) is similar to \( B \), then \( B \) is similar to \( A \).
+\end{itemize}
+
+\end{definition}
+
+
+\secbreak
+
+\section*{Eigenvalues, Eigenvectors, and Diagonalizability}
+
+\begin{definition}[Eigenvalue/Eigenvector]
+Given \( \vec{v} \in V \) nonzero and \( T: V \to V \), \(\vec{v}\) is an \emph{eigenvector} of \( T \) if there exists \(\lambda \in \mathbb{F}\) such that 
+\[
+T(\vec{v}) = \lambda \vec{v}.
+\]
+\(\lambda\) is called an \emph{eigenvalue} for \( T \).
+\end{definition}
+
+\begin{definition}[Eigenspace]
+Let \( \lambda \in \mathbb{F} \) be an eigenvalue of \( T: V \to V \). Then the \(\lambda\)-eigenspace of \( T \) is the subset 
+\[
+E_{\lambda} := \{ \vec{v} \in V \mid T(\vec{v}) = \lambda \vec{v} \} \subseteq V.
+\]
+In other words, it is the set of all eigenvectors with eigenvalue \(\lambda\) union \(\{\vec{0}\}\).
+
+If \( \lambda \) is an eigenvalue of \( A \in \mathrm{Mat}_{n \times n}(\mathbb{F}) \), then the \(\lambda\)-eigenspace of \( A \) is the \(\lambda\)-eigenspace of \( L_A: \mathbb{F}^n \to \mathbb{F}^n \). In other words, the \(\lambda\)-eigenspace of \( A \) is 
+\[
+\{ \vec{v} \in \mathbb{F}^n \mid L_A(\vec{v}) = \lambda \vec{v} \}.
+\]
+\end{definition}
+
+\begin{lemma}[Relation to Coordinate Matrices]
+Let \( T: V \to V \) be linear with \(\dim V = n\) and let \( A \in \mathrm{Mat}_{n \times n}(\mathbb{F}) \). Let \( \beta = \{ \vec{v}_1, \ldots, \vec{v}_n \} \) be a basis for \( V \).
+\begin{enumerate}
+    \item \( \vec{v} \in V \) is an eigenvector for \( T \) with eigenvalue \(\lambda\) if and only if \( [\vec{v}]_{\beta} \) is an eigenvector for \( [T]_{\beta} \) with eigenvalue \(\lambda\).
+    \item \( \vec{v} \in \mathbb{F}^n \) is an eigenvector for \( A \) with eigenvalue \(\lambda\) if and only if \( \vec{v} \in \mathbb{F}^n \) is an eigenvector for \( L_A \) with eigenvalue \(\lambda\).
+\end{enumerate}
+\end{lemma}
+
+\begin{theorem}[Calculating Eigenvalues]
+Suppose \(\dim V = n\) and \(\beta\) is any basis for \( V \). Then \(\lambda\) is an eigenvalue for \( T: V \to V \) if and only if 
+\[
+\det(\lambda I_n - [T]_{\beta}) = 0.
+\]
+The eigenspace \( E_{\lambda} \) is given by 
+\[
+E_{\lambda} = \ker(\lambda \mathrm{id}_V - T).
+\]
+\end{theorem}
+
+
+\begin{definition}[Characteristic Polynomial]
+Given \( A \in \mathrm{Mat}_{n \times n}(\mathbb{F}) \), the \emph{characteristic polynomial} of \( A \) is 
+\[
+f_A(t) = \det(t I_n - A).
+\]
+
+Given \( T: V \to V \), \( V \) finite-dimensional, the characteristic polynomial of \( T \) is 
+\[
+f_T(t) := f_{[T]_{\beta}}(t) \quad \text{for any basis } \beta \text{ of } V.
+\]
+
+\end{definition}
+
+
+\begin{definition}[Algebraic and Geometric Multiplicities]
+Suppose 
+\[
+f_T(t) = \prod_{i=1}^{r} (t - \lambda_i)^{n_i} g(t),
+\]
+where:
+\begin{itemize}
+    \item \(\lambda_i \in \mathbb{F}\),
+    \item \(\lambda_i \neq \lambda_j\) for \(i \neq j\),
+    \item \(g(t)\) has no roots in \(\mathbb{F}\).
+\end{itemize}
+Note: \(\lambda_1, \ldots, \lambda_r\) are exactly the eigenvalues of \( T \).
+\end{definition}
+
+\begin{definition}[Multiplicities]
+The \emph{geometric multiplicity} of an eigenvalue \(\lambda\) of \( T: V \to V \) is \(\dim(E_{\lambda})\).
+
+The \emph{algebraic multiplicity} of \(\lambda_i, 1 \leq i \leq r\), is \(n_i\), as in the above definition. This is the maximal power of \((t - \lambda_i)\) dividing \( f_T(t) \).
+\end{definition}
+
+
+\begin{definition}[Eigenbasis]
+Let \( T: V \to V \) and let \( \beta = \{ \vec{v}_1, \ldots, \vec{v}_n \} \) be a basis for \( V \). If all \(\vec{v}_i\) are eigenvectors for \( T \), we call \( \beta \) an \emph{eigenbasis}.
+
+By definition, \(\forall i \in \{1, \ldots, n\}\), \(\exists \lambda_i \in \mathbb{F}\) such that \( T(\vec{v}_i) = \lambda_i \vec{v}_i \).
+
+\end{definition}
+
+
+\begin{theorem}[Eigenbasis and Diagonal Matrix]
+In summary, we've proved: \( \beta \) is an eigenbasis if and only if \( [T]_{\beta} \) is diagonal.
+\end{theorem}
+
+\begin{definition}[Diagonalizable]
+A transformation \( T: V \to V \) is \emph{diagonalizable} if there is a basis \( \beta \) for \( V \) such that \( [T]_{\beta} \) is a diagonal matrix.
+
+A matrix \( A \in \mathrm{Mat}_{n \times n}(\mathbb{F}) \) is \emph{diagonalizable} if \( L_A: \mathbb{F}^n \to \mathbb{F}^n \) is diagonalizable.
+\end{definition}
+
+\begin{definition}[Splits]
+A polynomial \( f(t) = a_0 + a_1 t + \ldots + a_n t^n \) with \( a_i \in \mathbb{F} \) \emph{splits} over \( \mathbb{F} \) if \( f(t) \) factors into linear terms with roots in \( \mathbb{F} \):
+\[
+f(t) = (t - \lambda_1)^{n_1} \cdots (t - \lambda_r)^{n_r},
+\]
+where \( \lambda_i \in \mathbb{F} \) and \( \lambda_i \neq \lambda_j \) for \( i \neq j \).
+
+\textbf{Field matters!}
+\end{definition}
+
+\begin{lemma}[Diagonalizable Equivalent Conditions]
+Let \( V \) be finite-dimensional. Let \( T: V \to V \) be linear and \( A \in \mathrm{Mat}_{n \times n}(\mathbb{F}) \).
+\begin{enumerate}
+    \item Let \(\gamma\) be a basis for \( V \). \( T \) is diagonalizable if and only if \( [T]_{\gamma} \) is diagonalizable.
+    \item \( A \) is diagonalizable if and only if \( A \) is similar to a diagonal matrix.
+\end{enumerate}
+\end{lemma}
+
+
+
+\begin{theorem}[More equivalent conditions to Diagonalizable] \(T\) is diagonalizable \(\Leftrightarrow\)
+\begin{enumerate}
+    \item \( f_T(t) \) splits over \( \mathbb{F} \),
+    \item For all eigenvalues of \( T \), the algebraic multiplicity equals the geometric multiplicity.
+\end{enumerate}
+\end{theorem}
+
+\begin{definition}[Direct Sum]
+Let \( W_1, \ldots, W_r \subseteq V \) be subspaces. \( W_1 + \cdots + W_r \) is a \emph{direct sum}, written as \( W_1 \oplus \cdots \oplus W_r \), if for all \( w \in W_1 + \cdots + W_r \), the representation \( w = u_1 + \cdots + u_r \) with \( u_i \in W_i \) is unique.
+
+That is, if \( u_1 + \cdots + u_r = u_1' + \cdots + u_r' \) for \( u_i, u_i' \in W_i \), then \( u_i = u_i' \) for all \( i \).
+\end{definition}
+
+
+\begin{lemma}[A]
+Let \( T: V \to V \) and \(\dim V = n\). Then \( f_T(t) \) has degree \( n \).
+
+Let \( \lambda \in \mathbb{F} \) be an eigenvalue for \( T: V \to V \). Then:
+\[
+1 \leq \text{Geometric multiplicity of } \lambda \leq \text{Algebraic multiplicity of } \lambda.
+\]
+\end{lemma}
+
+\begin{lemma}[B]
+Let \( \lambda_1, \ldots, \lambda_r \) be eigenvalues of \( T : V \to V \). Then the sum \( E_{\lambda_1} + \cdots + E_{\lambda_r} \) is direct.
+\end{lemma}
+
+\begin{lemma}[C]
+Let \( V \) be finite-dimensional over \( F \), \( T : V \to V \) with \( \lambda_1, \ldots, \lambda_r \) distinct roots of \( f_T(t) \). Then \( T \) has a basis of eigenvectors for \( T \) if and only if \( V = E_{\lambda_1} + \cdots + E_{\lambda_r} \).
+\end{lemma}
+
+
+
+\secbreak
+
+
+\section{Inner Product Spaces}
+
+\begin{definition}[Inner Product]
+    Let \( V \) be a vector space over \( \F = \R \) or \( \F = \C \). An \emph{inner product} on \( V \) is a function
+    \[
+    \langle \cdot , \cdot \rangle : V \times V \to \F
+    \]
+    (written as \(\langle x, y \rangle\) for \( x, y \in V \)) such that for all \( x, y, z \in V \) and all \( c \in \F \):
+    \begin{enumerate}[label=(\alph*)]
+        \item \(\langle x + z, y \rangle = \langle x, y \rangle + \langle z, y \rangle\) \quad (Linearity in the first variable)
+        \item \(\langle cx, y \rangle = c \langle x, y \rangle\)
+        \item \(\langle x, y \rangle = \overline{\langle y, x \rangle}\) \quad (Conjugate symmetry)
+        \item If \( x \neq \vec{0}, \) then \( \langle x, x \rangle > 0 \) \quad (Positive-definiteness)
+    \end{enumerate}
+\end{definition}
+
+
+\begin{theorem}[IP Properties]
+    Let \( V \) be an inner product space over \( \F = \R \) or \( \F = \C \). Then for all \( x, y, z \in V \) and all \( c \in \F \):
+    \begin{enumerate}[label=(\alph*)]
+        \item \(\langle x, y + z \rangle = \langle x, y \rangle + \langle x, z \rangle\)
+        \item \(\langle x, cy \rangle = \overline{c} \langle x, y \rangle\)
+        \item \(\langle x, \vec{0} \rangle = \langle \vec{0}, x \rangle = 0\)
+        \item \(\langle x, x \rangle = 0 \iff x = \vec{0}\)
+        \item If \(\langle x, y \rangle = \langle x, z \rangle\) for all \( x \in V \), then \( y = z \).
+    \end{enumerate}
+\end{theorem}
+
+
+\begin{theorem}[IP Properties Continued]
+    If \( V \) is an inner product space over \( \F \), where \( \F = \R \) or \( \F = \C \), then:
+    \begin{enumerate}[label=(\alph*)]
+        \item For all \( x \in V \) and \( c \in \F \):
+        \[
+        \| cx \| = |c| \| x \|
+        \]
+        where \( c = a + ib \in \C \) and \(|c| = \sqrt{a^2 + b^2} \).
+
+        \item \(\| x \| = 0 \iff x = \vec{0}\).
+
+        \item If \( x \neq \vec{0} \), then \(\frac{x}{\| x \|}\) is normal.
+    \end{enumerate}
+\end{theorem}
+
+
+
+\begin{theorem}[Orthogonal Projections]
+    Let \( V \) be an inner product space over \( \F = \R \) or \( \F = \C \). Let \(\beta = \{ \vec{v}_1, \ldots, \vec{v}_n \} \) be an orthogonal basis. Given \( x \in V \),
+    \[
+    x = \sum_{i=1}^{n} \frac{\langle x, \vec{v}_i \rangle}{\|\vec{v}_i\|^2} \vec{v}_i.
+    \]
+\end{theorem}
+
+\begin{corollary}[Orthonormal Basis]
+    If \(\{ \vec{v}_1, \ldots, \vec{v}_n \}\) is an orthonormal basis (ONB) for \( V \), then for all \( x \in V \),
+    \[
+    x = \sum_{i=1}^{n} \langle x, \vec{v}_i \rangle \vec{v}_i.
+    \]
+\end{corollary}
+
+
+
+\begin{definition}[Orthogonal Projection]
+    Let \( V \) be an inner product space. Let \( U \subseteq V \) be a subspace. Given an orthonormal basis (ONB) for \( U \), \(\{ \vec{u}_1, \ldots, \vec{u}_k \} \subseteq U\), the orthogonal projection onto \( U \) is a function
+    \[
+    P_U : V \to V
+    \]
+    defined by
+    \[
+    P_U(v) = \sum_{j=1}^{k} \frac{\langle v, \vec{u}_j \rangle}{\| \vec{u}_j \|^2} \vec{u}_j.
+    \]
+\end{definition}
+
+
+\begin{proposition}[Minimum value for projection]
+    Suppose \( V \) is finite-dimensional. Let \( U \) be a subspace of \( V \), and let \( v \in V \). Then the value \(\| v - \vec{x} \|\) is minimized when \( \vec{x} = P_U(v) \), where \( P_U \) is the orthogonal projection onto \( U \).
+\end{proposition}
+
+
+\begin{lemma}[Pythagorean Theorem]
+    Let \( \vec{x} \in U \) and \( v \in V \). Then
+    \[
+    \| v - \vec{x} \|^2 = \| P_U(v) - \vec{x} \|^2 + \| P_U(v) - v \|^2.
+    \]
+    This is the Pythagorean theorem.
+\end{lemma}
+
+
+
+
+\begin{theorem}[Idea behind Gram Schmidt]
+    Let \( V \) be an inner product space over \( \F = \R \) or \( \F = \C \). Let \( S = \{ s_1, \ldots, s_n \} \) be a linearly independent set in \( V \). Let \( U_i = \operatorname{span} \{ s_1, \ldots, s_i \} \). Define:
+    \[
+    t_1 = s_1,
+    \]
+    \[
+    t_j = s_j - P_{U_{j-1}}(s_j).
+    \]
+    Then the set \( S' = \{ t_1, \ldots, t_n \} \) is orthogonal, and
+    \[
+    \operatorname{span}(S) = \operatorname{span}(S').
+    \]
+    Furthermore, the set \( S'' = \left\{ \frac{t_1}{\| t_1 \|}, \ldots, \frac{t_n}{\| t_n \|} \right\} \) is an orthonormal basis (ONB) for \(\operatorname{span}(S)\).
+\end{theorem}
+
+
+\begin{theorem}[Gram-Schmidt Algorithm]
+    Let \( S = \{ w_1, \ldots, w_n \} \) be a linearly independent set in \( V \). Define:
+    \[
+    v_1 = w_1,
+    \]
+    \[
+    v_k = w_k - \sum_{j=1}^{k-1} \frac{\langle w_k, v_j \rangle}{\| v_j \|^2} v_j \quad \text{for } 2 \leq k \leq n.
+    \]
+    Let \( S' = \{ v_1, \ldots, v_n \} \). Then \( S' \) is orthogonal. Furthermore, let
+    \[
+    S'' = \left\{ \frac{v_1}{\| v_1 \|}, \ldots, \frac{v_n}{\| v_n \|} \right\}.
+    \]
+    Then \( S'' \) is orthonormal.
+\end{theorem}
+
+
+
+\begin{definition}[Adjoint Operator]
+Given \( T: V \to V \), let \( T^*: V \to V \) be determined by \( \langle T(x), y \rangle = \langle x, T^*(y) \rangle \).
+\end{definition}
+
+
+
+\begin{theorem}[On Adjoint Operators]
+Let \( T: V \to V \) be a linear operator, and let \( \beta \) be an orthonormal basis (ONB) for \( V \). Then,
+\[
+[T^*]_\beta = [T]_\beta^*
+\]
+where for \( A \in M_{n \times n}(F) \), \( (A^*)_{ij} = \overline{A_{ji}} \).
+\end{theorem}
+
+
+\begin{definition}[Normal and Self-adjoint]
+We say that \( T: V \to V \) is \textbf{normal} if \( T T^* = T^* T \).
+
+We say that \( T: V \to V \) is \textbf{self-adjoint} if \( T^* = T \).
+
+We say that \( A \in M_{n \times n}(F) \) is \textbf{normal} if \( A A^* = A^* A \).
+
+We say that \( A \in M_{n \times n}(F) \) is \textbf{self-adjoint} if \( A^* = A \).
+\end{definition}
+
+
+
+\begin{theorem}[\(\star\) - Stronger diagonalization]
+Let \( T: V \to V \) be linear.
+\begin{itemize}
+    \item If \( F = \mathbb{C} \), \( T \) is normal \(\iff\) there exists an orthonormal basis (ONB) for \( V \) of eigenvectors for \( T \).
+    \item If \( F = \mathbb{R} \), \( T \) is self-adjoint \(\iff\) there exists an ONB for \( V \) of eigenvectors for \( T \).
+\end{itemize}
+\end{theorem}
+
+
+
+\begin{theorem}[Facts about Adjoints]
+Let \( T: V \to V \) be normal. Then:
+\begin{enumerate}
+    \item \( \|T(x)\| = \|T^*(x)\| \, \forall x \in V \).
+    \item \( T - cI \) is normal \( \forall c \in \mathbb{F} \).
+    \item If \( x \) is an eigenvector for \( T \) with eigenvalue \( \lambda \), then \( x \) is an eigenvector for \( T^* \) with eigenvalue \( \overline{\lambda} \).
+    \item If \( \lambda_1 \neq \lambda_2 \), \( x, y \in V \), \( T(x) = \lambda_1 x \), \( T(y) = \lambda_2 y \), then \( \langle x, y \rangle = 0 \). i.e. Eigenvectors for distinct eigenvalues are orthogonal.
+\end{enumerate}
+\end{theorem}
+
+
+\begin{theorem}[Adjoints and Kernels and Images]
+    Let \( T: V \to V \) be a linear operator on a finite-dimensional inner product space \( V \), and let \( T^* \) be the adjoint of \( T \). Then the following properties hold:
+\begin{enumerate}
+    \item \(\operatorname{Im}(T^*)^\perp = \ker(T)\)
+    \item If \( V \) is finite-dimensional, \(\operatorname{Im}(T^*) = \ker(T)^\perp\)
+    \item \(\operatorname{Im}(T)^\perp = \ker(T^*)\)
+    \item If \( V \) is finite-dimensional, \(\operatorname{Im}(T) = \ker(T^*)^\perp\)
+\end{enumerate}
+\end{theorem}
+
+
+
+
+
+
+
+\begin{theorem}[Schur's]
+Suppose that \( T: V \to V \) is linear and \( f_T(t) \) splits. Then there exists an orthonormal basis (ONB) for \( V \) such that \( [T]_\beta \) is upper-triangular.
+\end{theorem}
+
+
+
+\begin{theorem}[Fundamental Theorem of Algebra]
+    Every non-constant polynomial \(g(t) \in \text{Poly}(\C)\) has a root in \(\C\). 
+\end{theorem}
+
+
+
+
+
+\begin{theorem}[Spectral Theorem]
+    Let \( V \) be a finite-dimensional inner product space over \( \mathbb{F} = \mathbb{R} \) or \( \mathbb{C} \).
+
+    Let \( T: V \to V \) be linear and normal if \( \mathbb{F} = \mathbb{C} \), self-adjoint if \( \mathbb{F} = \mathbb{R} \).
+    
+    Let \( \lambda_1, \ldots, \lambda_k \) be the eigenvalues of \( T \), and let \( W_i = E_{\lambda_i} \).
+    
+    Then:
+    
+    \begin{enumerate}
+        \item \( V = W_1 \oplus W_2 \oplus \cdots \oplus W_k \)
+        \item \( W_i \perp \sum_{\substack{j = 1 \\ j \neq i}}^{k} W_j \)
+    \end{enumerate}
+    
+    Let \( T_i = P_{W_i} \) for \( 1 \leq i \leq k \):
+    
+    \begin{enumerate}
+        \setcounter{enumi}{2}
+        \item \( I = T_1 + \cdots + T_k \)
+        \item \( T = \lambda_1 T_1 + \cdots + \lambda_k T_k \)
+    \end{enumerate}
+    
+    \textit{What does this mean?}
+    
+    \textbf{(4):} Decompose \( T \) into scaled projection operators.
+    
+    \textit{The spectral decomposition of \( T \).}
+\end{theorem}
+
+
+
+
+
+
+
+
+\end{document}
